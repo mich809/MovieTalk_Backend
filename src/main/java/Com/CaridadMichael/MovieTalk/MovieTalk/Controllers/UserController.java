@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,12 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.User;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Service.UserService;
+import Com.CaridadMichael.MovieTalk.MovieTalk.Service.JwtService;
+import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.*;
 
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private JwtService jwtService;
 
     @PostConstruct
     public void initRoleAndUser() {
@@ -74,5 +78,10 @@ public class UserController {
             return authentication.getName();
         else
             return "";
+    }
+    
+    @PostMapping({"/authenticate"})
+    public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+        return jwtService.createJwtToken(jwtRequest);
     }
 }
