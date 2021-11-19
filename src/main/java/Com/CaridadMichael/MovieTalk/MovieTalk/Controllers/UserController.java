@@ -1,6 +1,7 @@
 package Com.CaridadMichael.MovieTalk.MovieTalk.Controllers;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping({"/register"})
-    public User registerNewUser(@RequestBody User user) {
+    public User registerNewUser(@Valid @RequestBody User user) {
         return userService.registerNewUser(user);
     }
 

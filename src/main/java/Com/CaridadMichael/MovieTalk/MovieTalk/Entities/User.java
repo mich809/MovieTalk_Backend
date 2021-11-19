@@ -1,6 +1,8 @@
 package Com.CaridadMichael.MovieTalk.MovieTalk.Entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,10 @@ import java.util.Set;
 public class User {
 
     @Id
+    @NotBlank
+    @Size(min = 4)
     private String username;  
+    @NotBlank
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",
