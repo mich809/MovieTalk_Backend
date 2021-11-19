@@ -3,7 +3,7 @@ package Com.CaridadMichael.MovieTalk.MovieTalk.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.config.MvcNamespaceHandler;
+
 
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Movie;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Role;
@@ -13,7 +13,7 @@ import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.RoleRepo;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.UserRepo;
 
 import java.util.HashSet;
-import java.util.Optional;
+
 import java.util.Set;
 
 @Service

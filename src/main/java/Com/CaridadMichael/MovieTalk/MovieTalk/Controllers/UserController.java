@@ -81,7 +81,7 @@ public class UserController {
     }
     
     @PostMapping({"/authenticate"})
-    public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
         return jwtService.createJwtToken(jwtRequest);
     }
 }
