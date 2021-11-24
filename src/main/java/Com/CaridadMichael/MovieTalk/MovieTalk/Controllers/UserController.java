@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,31 +36,12 @@ public class UserController {
     }
 
     @PostMapping({"/register"})
-    public User registerNewUser(@Valid @RequestBody User user) {
-        return userService.registerNewUser(user);
-    }
+    public ResponseEntity<String> registerNewUser(@Valid @RequestBody User user) {
+        return userService.registerNewUser(user);  
+       }
 
-    @GetMapping({"/forAdmin"})
-    @PreAuthorize("hasRole('Admin')")
-    public String forAdmin(){
-        return "This URL is only accessible to the admin";
-    }
-
-    @GetMapping({"/forUser"})
-    @PreAuthorize("hasRole('User')")
-    public String forUser(){
-        return "This URL is only accessible to the user";
-    }
-   
-    
-    @GetMapping("/admin/findUser/{id}")
-    @PreAuthorize("hasRole('Admin')")
-    public User getUser(@RequestParam String username) {
-    	return userService.getUser(username);
-    
-    }
-    
-    @PostMapping("/user/likeMovie/{title}")
+  
+    @PostMapping("/likeMovie/{title}")
     @PreAuthorize("hasRole('User')")
     public String likedMovie(@RequestParam String title,Authentication authentication) {    	
     	userService.likedMovie(title,authentication.getName());  
