@@ -13,7 +13,7 @@ import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.User;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.MovieRepo;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.RoleRepo;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.UserRepo;
-import net.bytebuddy.asm.Advice.Return;
+
 
 import java.util.HashSet;
 
@@ -72,11 +72,8 @@ public class UserService {
 
             userRepo.save(user);
             return  new ResponseEntity<String>("User registered", HttpStatus.CREATED);
-    	}
+    	}  	
     	
-    	
-    	
-    
     }
     
     public User getUser(String username) {
