@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import Com.CaridadMichael.MovieTalk.MovieTalk.Service.JwtService;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.*;
 
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -72,7 +74,7 @@ public class UserController {
     }
     
     
-    @GetMapping(value = "/user/me")
+    @GetMapping(value = "/me")
     @ResponseBody
     public String currentUserName(Authentication authentication) {    
         if (authentication != null)
