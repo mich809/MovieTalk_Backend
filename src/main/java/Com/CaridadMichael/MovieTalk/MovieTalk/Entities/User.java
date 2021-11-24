@@ -25,7 +25,7 @@ public class User {
   
     
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ROLE",
+    @JoinTable(name = "user_roles",
             joinColumns = {
                     @JoinColumn(name = "user_id")
             },
@@ -36,7 +36,7 @@ public class User {
     private Set<Role> role ;
     
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_MOVIES",
+    @JoinTable(name = "user_movies",
             joinColumns = {
                     @JoinColumn(name = "user_id")
             },
