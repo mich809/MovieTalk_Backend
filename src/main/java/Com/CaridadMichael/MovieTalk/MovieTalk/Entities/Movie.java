@@ -12,14 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+
 
 
 @Entity
 @Data
+
 public class Movie {
 		@Id
 	    private String title; 	
 		
+		@EqualsAndHashCode.Exclude
+		@ToString.Exclude
 		@ManyToMany(mappedBy = "movies", fetch = FetchType.EAGER)
 	    private Set<User> users = new HashSet<User>();
 		
