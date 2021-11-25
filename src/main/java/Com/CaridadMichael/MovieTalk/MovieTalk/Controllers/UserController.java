@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,13 +44,13 @@ public class UserController {
   
     @PostMapping("/likeMovie/{title}")
     @PreAuthorize("hasRole('User')")
-    public String likedMovie(@RequestParam String title,Authentication authentication) {    	
-    	userService.likedMovie(title,authentication.getName());  
-    	return "yes";
+    public ResponseEntity<String> likedMovie(@RequestParam String title,Authentication authentication) {    	
+    	return userService.likedMovie(title,authentication.getName());  
+    	
     	
     }
     
-    @PostMapping("/movie/addMovie/{title}")
+    @PutMapping("/movie/addMovie/{title}")
     @PreAuthorize("hasRole('User')")
     public void addMovie(@RequestParam String title) {     
         userService.addNewMovie(title);            	
