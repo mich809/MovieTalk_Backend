@@ -42,7 +42,7 @@ public class UserController {
        }
 
   
-    @PostMapping("/likeMovie/{title}")
+    @PutMapping("/likeMovie/{title}")
     @PreAuthorize("hasRole('User')")
     public ResponseEntity<String> likedMovie(@RequestParam String title,Authentication authentication) {    	
     	return userService.likedMovie(title,authentication.getName());  
@@ -50,7 +50,7 @@ public class UserController {
     	
     }
     
-    @PutMapping("/movie/addMovie/{title}")
+    @PostMapping("/movie/addMovie/{title}")
     @PreAuthorize("hasRole('User')")
     public void addMovie(@RequestParam String title) {     
         userService.addNewMovie(title);            	
