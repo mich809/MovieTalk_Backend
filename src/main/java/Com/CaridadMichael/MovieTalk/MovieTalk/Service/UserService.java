@@ -82,7 +82,7 @@ public class UserService {
     	else return null;
     }
     
-    public String likedMovie(String title,String username) {
+    public ResponseEntity<String> likedMovie(String title,String username) {
     	user = userRepo.findById(username).get(); 
     	Movie movie = new Movie();
     	movie.setTitle(title);    	
@@ -90,7 +90,7 @@ public class UserService {
     	user.getMovies().add(movie);
     	userRepo.save(user);
     	
-    	return "yes";  
+    	return new ResponseEntity<String>(title+ " has been added to "+ username + "'s list", HttpStatus.CREATED);
      }
     
     public void addNewMovie(String title) {    	  
