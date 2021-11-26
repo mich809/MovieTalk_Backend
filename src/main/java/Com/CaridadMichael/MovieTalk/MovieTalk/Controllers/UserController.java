@@ -1,5 +1,8 @@
 package Com.CaridadMichael.MovieTalk.MovieTalk.Controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
@@ -47,7 +50,6 @@ public class UserController {
     public ResponseEntity<String> likedMovie(@RequestParam String title,Authentication authentication) {    	
     	return userService.likedMovie(title,authentication.getName());  
     	
-    	
     }
     
     @PostMapping("/movie/addMovie/{title}")
@@ -57,7 +59,7 @@ public class UserController {
     }
     
     
-    @GetMapping(value = "/me")
+    @GetMapping("/me")
     @ResponseBody
     public String currentUserName(Authentication authentication) {    
         if (authentication != null)
@@ -69,5 +71,11 @@ public class UserController {
     @PostMapping({"/authenticate"})
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
         return jwtService.createJwtToken(jwtRequest);
+    }
+    
+    @GetMapping("/getMovies")
+    public ResponseEntity<Set<Movie>> getMovies(Authentication authentication) {    	
+    	return userService.getMovies(authentication.getName());
+    	
     }
 }

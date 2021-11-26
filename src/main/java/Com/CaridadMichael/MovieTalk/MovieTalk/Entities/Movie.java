@@ -25,10 +25,10 @@ public class Movie {
 		@Id
 	    private String title; 	
 		
-		@EqualsAndHashCode.Exclude
-		@ToString.Exclude
-		@ManyToMany(mappedBy = "movies", fetch = FetchType.EAGER)
-	    private Set<User> users = new HashSet<User>();
+//		@EqualsAndHashCode.Exclude
+//		@ToString.Exclude
+//		@ManyToMany(mappedBy = "movies", fetch = FetchType.EAGER)
+//	    private Set<User> users = new HashSet<User>();
 		
 	
 		
