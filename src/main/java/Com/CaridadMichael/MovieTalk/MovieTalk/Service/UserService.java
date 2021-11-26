@@ -3,7 +3,6 @@ package Com.CaridadMichael.MovieTalk.MovieTalk.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.UserRepo;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -75,13 +73,8 @@ public class UserService {
             return  new ResponseEntity<String>("User registered", HttpStatus.CREATED);
     	}  	
     	
-    }
-    
-    public User getUser(String username) {
-    	if(userRepo.findById(username).isPresent())
-    		return userRepo.findById(username).get();
-    	else return null;
-    }
+    }    
+   
     
     public ResponseEntity<String> likedMovie(String title,String username) {
     	user = userRepo.findById(username).get(); 
