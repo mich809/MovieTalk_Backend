@@ -3,17 +3,16 @@ package Com.CaridadMichael.MovieTalk.MovieTalk.Entities;
 
 
 
-import java.util.HashSet;
-import java.util.Set;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+
 
 
 
@@ -22,13 +21,22 @@ import lombok.ToString;
 @Data
 
 public class Movie {
-		@Id
-	    private String title; 	
+	     @Id
+		 private String id;
+	     private String original_title;
+		 private String release_date;
+		 @Column(length = 3000) 
+		 private String overview;
+		 private String poster_path;
+		 private String backdrop_path;
+		 private String runtime;
+		 
+		 
 		
-//		@EqualsAndHashCode.Exclude
-//		@ToString.Exclude
-//		@ManyToMany(mappedBy = "movies", fetch = FetchType.EAGER)
-//	    private Set<User> users = new HashSet<User>();
+		  
+		
+		
+
 		
 	
 		

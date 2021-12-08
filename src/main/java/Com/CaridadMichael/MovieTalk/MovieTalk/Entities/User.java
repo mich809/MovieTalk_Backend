@@ -20,6 +20,8 @@ public class User {
     @NotBlank
     @Size(min = 4)
     private String username;  
+    
+    
     @NotBlank
     private String password;
   
@@ -38,13 +40,13 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_movies",
             joinColumns = {
-                    @JoinColumn(name = "user_id")
+                    @JoinColumn(name = "username")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "movie_id")
+                    @JoinColumn(name = "id")
             }
     )
-    private Set<Movie> movies = new HashSet<Movie>();
+    private Set<Movie> movies;
     
     
 
