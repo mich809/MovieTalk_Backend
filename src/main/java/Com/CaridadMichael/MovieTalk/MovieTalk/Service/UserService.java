@@ -8,10 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Movie;
+
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Role;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.User;
-import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.MovieRepo;
+
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.RoleRepo;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Repo.UserRepo;
 
@@ -28,15 +28,12 @@ public class UserService {
     @Autowired
     private RoleRepo roleRepo;
     
-    @Autowired
-    private MovieRepo movieRepo;
+  
 
     @Autowired
     private PasswordEncoder passwordEncoder;    
   
-    @Autowired
-    private User user;
-
+  
 
     public void initRoleAndUser() {
         Role adminRole = new Role();
@@ -61,7 +58,7 @@ public class UserService {
     }
 
     public ResponseEntity<String> registerNewUser(User user) {    	
-    	if (userExist(user.getUsername())) {
+    	if (userRepo.findById(user.getUsername()).isPresent()) {
     		return new ResponseEntity<String>("User already Exist",HttpStatus.CONFLICT);
     	}else {
     	    Role role = roleRepo.findById("User").get();
@@ -77,52 +74,15 @@ public class UserService {
     }    
    
     
-    public ResponseEntity<Movie> likedMovie(Movie movie, String username) {
-    	user = userRepo.findById(username).get(); 
-    	movieRepo.save(movie);
-	    user.getFavoriteMovies().add(movie); 	  
-    	userRepo.save(user);
-     
-    	
-    	return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
-     }
+   
     
   
     
-    public boolean userExist(String username) {
-    	if(userRepo.findById(username).isPresent())
-    		return true;
-    	else return false;
-    	
-    }
 
-	public ResponseEntity<Set<Movie>> getFavoriteMovies(String username) {
-		user = userRepo.findById(username).get(); 	
-		return new ResponseEntity<Set<Movie>>(user.getFavoriteMovies(),HttpStatus.ACCEPTED);
-	}
-	
-	public ResponseEntity<String> rateMovie(int rating , String id) {
-		Movie movie;
-		movie = movieRepo.findById(id).get();
-		movie.setRating(movie.getRating()+rating);
-		movie.setRating(movie.getRating()+rating);
-		movieRepo.save(movie);
-		
-		return new ResponseEntity<String>(movie.getOriginal_title() + " has been given a rating of "+ rating , HttpStatus.OK);
-		
-		
-	}
+
 	
 	
-	public ResponseEntity<String> removeMovie(Movie movie,  String username) {
-		user = userRepo.findById(username).get(); 
-		if (user.getFavoriteMovies().remove(movie)) {	
-			userRepo.save(user);
-			return new ResponseEntity<String>( movie.getOriginal_title() + " has been removed from "+ username+ " list", HttpStatus.OK);
-			
-		}else {
-			return new ResponseEntity<String>( movie.getOriginal_title() + " was not removed from "+ username+ " list", HttpStatus.OK);
-		}
+	
 	
 		
 		
@@ -134,4 +94,3 @@ public class UserService {
 	
 
    
-}
