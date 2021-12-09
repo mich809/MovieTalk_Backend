@@ -1,7 +1,7 @@
 package Com.CaridadMichael.MovieTalk.MovieTalk.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,16 +80,14 @@ public class UserService {
     public ResponseEntity<Movie> likedMovie(Movie movie, String username) {
     	user = userRepo.findById(username).get(); 
     	movieRepo.save(movie);
-	    user.getMovies().add(movie); 	  
+	    user.getFavoriteMovies().add(movie); 	  
     	userRepo.save(user);
      
     	
     	return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
      }
     
-    public void addNewMovie(Movie movie) {   	  
-       movieRepo.save(movie);
-    }
+  
     
     public boolean userExist(String username) {
     	if(userRepo.findById(username).isPresent())
@@ -98,21 +96,41 @@ public class UserService {
     	
     }
 
-	public ResponseEntity<Set<Movie>> getMovies(String username) {
+	public ResponseEntity<Set<Movie>> getFavoriteMovies(String username) {
 		user = userRepo.findById(username).get(); 	
-		return new ResponseEntity<Set<Movie>>(user.getMovies(),HttpStatus.ACCEPTED);
+		return new ResponseEntity<Set<Movie>>(user.getFavoriteMovies(),HttpStatus.ACCEPTED);
 	}
 	
-//	public ResponseEntity<String> rateMovie(int rating , String id) {
-//		Movie movie;
-//		movie = movieRepo.findById(id).get();
-//		movie.setRating(movie.getRating()+rating);
-//		movieRepo.save(movie);
-//		
-//		return new ResponseEntity<String>(movie.getOriginal_title() + " has been given a rating of "+ rating , HttpStatus.OK);
-//		
-//		
-//	}
+	public ResponseEntity<String> rateMovie(int rating , String id) {
+		Movie movie;
+		movie = movieRepo.findById(id).get();
+		movie.setRating(movie.getRating()+rating);
+		movie.setRating(movie.getRating()+rating);
+		movieRepo.save(movie);
+		
+		return new ResponseEntity<String>(movie.getOriginal_title() + " has been given a rating of "+ rating , HttpStatus.OK);
+		
+		
+	}
+	
+	
+	public ResponseEntity<String> removeMovie(Movie movie,  String username) {
+		user = userRepo.findById(username).get(); 
+		if (user.getFavoriteMovies().remove(movie)) {	
+			userRepo.save(user);
+			return new ResponseEntity<String>( movie.getOriginal_title() + " has been removed from "+ username+ " list", HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<String>( movie.getOriginal_title() + " was not removed from "+ username+ " list", HttpStatus.OK);
+		}
+	
+		
+		
+		
+		
+	}
+	
+	
 	
 
    

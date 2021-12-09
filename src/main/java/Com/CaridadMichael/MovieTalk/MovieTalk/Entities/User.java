@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -43,10 +43,10 @@ public class User {
                     @JoinColumn(name = "username")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "id")
+                    @JoinColumn(name = "movie_id")
             }
     )
-    private Set<Movie> movies;
+    private Set<Movie> favoriteMovies;
     
     
 
