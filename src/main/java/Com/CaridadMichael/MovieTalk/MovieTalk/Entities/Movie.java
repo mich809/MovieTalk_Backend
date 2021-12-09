@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.xml.bind.PrintConversionEvent;
+
 
 import lombok.Data;
 
@@ -39,17 +39,17 @@ public class Movie {
 		 private int rating = 0;
 		 
 		 
-//	    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//	    @JoinTable(name = "user_movies",
-//	            joinColumns = {
-//	                    @JoinColumn(name = "username")
-//	            },
-//	            inverseJoinColumns = {
-//	                    @JoinColumn(name = "id")
-//	            }
-//	    )
-//	    private Set<Movie> movies;
-//	 
+	    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	    @JoinTable(name = "movie_comments",
+	            joinColumns = {
+	                    @JoinColumn(name = "movie_id")
+	            },
+	            inverseJoinColumns = {
+	                    @JoinColumn(name = "comment_id")
+	            }
+	    )
+	    private Set<Comment> comments;
+	 
 		
 		  
 		

@@ -15,44 +15,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Comment;
 import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Movie;
-import Com.CaridadMichael.MovieTalk.MovieTalk.Service.UserService;
+import Com.CaridadMichael.MovieTalk.MovieTalk.Service.MovieService;
+
 
 @RestController
 @RequestMapping("movie")
 public class MovieController {
 	
  	@Autowired
-    private UserService userService;
+    private MovieService movieService;
 	
  	@PutMapping("/movie/rateMovie/{rating}")
     @PreAuthorize("hasRole('User')")
     public ResponseEntity<String> ratedMovie(@RequestParam int rating, @RequestParam String id) {    	
-    	return userService.rateMovie(rating, id);
     	
+ 		return movieService.rateMovie(rating, id);    	
     }	
 	
 	 @GetMapping("/getMovies")
 	public ResponseEntity<Set<Movie>> getMovies(Authentication authentication) {    	
-		return userService.getFavoriteMovies(authentication.getName());
+		
+		 return movieService.getFavoriteMovies(authentication.getName());
 	}
 	 
 	 @PostMapping("/likeMovie")
     @PreAuthorize("hasRole('User')")
-    public ResponseEntity<Movie> likedMovie(@RequestBody Movie movie,Authentication authentication) 
-    {    	
-    	 return userService.likedMovie(movie,authentication.getName());  
+    public ResponseEntity<Movie> likedMovie(@RequestBody Movie movie,Authentication authentication) {    	
     	
-    	
+		 return movieService.likedMovie(movie,authentication.getName());  
     }
 	 
 	@DeleteMapping("/removeMovie")
     @PreAuthorize("hasRole('User')")
-    public ResponseEntity<String> removeMovie(@RequestBody Movie movie,Authentication authentication) 
-    {    	
-    	 return userService.removeMovie(movie,authentication.getName());  
-    	
-    	
+    public ResponseEntity<String> removeMovie(@RequestBody Movie movie,Authentication authentication) {   
+		
+		return movieService.removeMovie(movie,authentication.getName());      	
     }
-
+	
+	@PostMapping("/comment")
+	@PreAuthorize("hasRole('User')")
+	public ResponseEntity<String> comment(@RequestBody Comment comment,@RequestParam String id) {    	
+	    	return movieService.commentMovie(comment , id);  
+	}
+	
+	 @GetMapping("/getComments")
+		public ResponseEntity<Set<Comment>> getComments(@RequestParam String id) {    	
+			
+			 return movieService.getAllComments(id);
+		}
 }
