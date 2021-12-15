@@ -37,7 +37,7 @@ public class User {
     )
     private Set<Role> role ;
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_movies",
             joinColumns = {
                     @JoinColumn(name = "username")
