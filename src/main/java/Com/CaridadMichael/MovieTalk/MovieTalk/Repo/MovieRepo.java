@@ -7,5 +7,7 @@ import Com.CaridadMichael.MovieTalk.MovieTalk.Entities.Movie;
 
 @Repository
 public interface MovieRepo extends CrudRepository<Movie,String> {
+	
+	
 
 }
