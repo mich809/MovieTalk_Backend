@@ -16,7 +16,7 @@ public class JwtUtil {
 
     private static final String SECRET_KEY = "CISC4900";
 
-    private static final int TOKEN_VALIDITY = 3600 * 5;
+    private static final int TOKEN_VALIDITY = 3600 * 30;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
