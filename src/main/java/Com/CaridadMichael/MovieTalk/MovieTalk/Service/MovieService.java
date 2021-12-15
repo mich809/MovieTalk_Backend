@@ -1,6 +1,9 @@
 package Com.CaridadMichael.MovieTalk.MovieTalk.Service;
 
+import java.util.Collections;
 import java.util.Set;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,59 +32,122 @@ public class MovieService {
 		@Autowired
 	    private User user;
 		
-		 public ResponseEntity<Movie> likedMovie(Movie movie, String username) {
-		    	user = userRepo.findById(username).get(); 
-		    	movieRepo.save(movie);
-			    user.getFavoriteMovies().add(movie); 	  
-		    	userRepo.save(user);
+			public ResponseEntity<String> likedMovie(Movie movie, String username) {
+				user = userRepo.findById(username).get(); 
+		
+		    	
+		    	if (!(checkIfMovieExist(movie.getId()))) {			    	
+		    		movieRepo.save(movie);		    		
+		    	} 
+		    	if (!(user.getFavoriteMovies().contains(movie))) {	
+		    		 movie = movieRepo.findById(movie.getId()).get();		    
+		    		 user.getFavoriteMovies().add(movie); 	    	
+			    	 userRepo.save(user);
+		    		 return new ResponseEntity<String>(movie.getOriginal_title() +" has been added to " + username +" list" ,HttpStatus.ACCEPTED);
+		    	}else {		    		
+		    		 return   new ResponseEntity<String>(movie.getOriginal_title() + " was already in " +username + " list ",HttpStatus.ACCEPTED);
+		    		
+		    	}	
+			 
 		     
 		    	
-		    	return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
+		    
 		     }
 		 
-		 public ResponseEntity<Set<Movie>> getFavoriteMovies(String username) {
+		 	public ResponseEntity<Set<Movie>> getFavoriteMovies(String username) {
 				user = userRepo.findById(username).get(); 	
 				return new ResponseEntity<Set<Movie>>(user.getFavoriteMovies(),HttpStatus.ACCEPTED);
 			}
 		 
-		 public ResponseEntity<String> rateMovie(int rating , String id) {
+		 	public void rateMovie(String id, int rating) {
 				Movie movie;
 				movie = movieRepo.findById(id).get();				
 				movie.setRating(rating);
 				movieRepo.save(movie);
 				
-				return new ResponseEntity<String>(movie.getOriginal_title() + " has been given a rating of "+ rating , HttpStatus.OK);
-				
-				
+		 		
 			}
+		 
+		 	public int getMovieRating( String id) {
+		 		if (checkIfMovieExist(id)) {
+					Movie movie = movieRepo.findById(id).get();				
+					return movie.getRating();
+				}else {
+					return 0;
+				}
+			}
+		 	
+		 	// check movie
 			
-			
-			public ResponseEntity<String> removeMovie(Movie movie,  String username) {
+			public ResponseEntity<String> removeMovie(String id,  String username) {
 				user = userRepo.findById(username).get(); 
-				if (user.getFavoriteMovies().remove(movie)) {	
+				Movie movie = movieRepo.findById(id).get();				
+				if (user.getFavoriteMovies().contains(movie)){				
+					user.getFavoriteMovies().remove(movie);
 					userRepo.save(user);
-					return new ResponseEntity<String>( movie.getOriginal_title() + " has been removed from "+ username+ " list", HttpStatus.OK);
+					return new ResponseEntity<String>( movie.getOriginal_title() + " has been removed from "+ username+ " list" , HttpStatus.OK);
 					
 				}else {
-					return new ResponseEntity<String>( movie.getOriginal_title() + " was not removed from "+ username+ " list", HttpStatus.OK);
+					return new ResponseEntity<String>( movie.getOriginal_title() + " was not in "+ username+ " list", HttpStatus.OK);
 				}
 				}
 
-			public ResponseEntity<String> commentMovie(Comment comment, String id) {
-				Movie movie = movieRepo.findById(id).get();
-				commentRepo.save(comment);
-    			movie.getComments().add(comment);
-				movieRepo.save(movie);
+			public ResponseEntity<String> commentMovie(Comment comment, String id) {				Movie movie;	
 				
-				return new ResponseEntity<String>( movie.getOriginal_title() + " had comment: "+ comment.getComment() + " added", HttpStatus.OK);
+			   if(checkIfMovieExist(id)) {
+					commentRepo.save(comment);
+					movie  = movieRepo.findById(id).get();
+					movie.getComments().add(comment);
+					movieRepo.save(movie);
+					return new ResponseEntity<String>( movie.getId() + " added comment " + comment, HttpStatus.OK);
+				}
+					
+				else {		
+					commentRepo.save(comment);
+					movie = new Movie();
+					movie.setId(id);
+					movie.getComments().add(comment);
+					movieRepo.save(movie);
+					return new ResponseEntity<String>( movie.getId() + " created" , HttpStatus.OK);
+					
+				}
+					
+					
+				
+				
+		
+    			
 			}
 			
-			public ResponseEntity<Set<Comment>> getAllComments(String id) {
-				Movie movie = movieRepo.findById(id).get();
+			public Set<Comment> getAllComments(String id) {
+				if(movieRepo.existsById(id.strip())) {
+					Movie movie = movieRepo.findById(id).get();
+					return movie.getComments();
+				}else {
+					Set<Comment> noComments = Collections.emptySet();
+					return noComments;
+				}
 				
     		
 				
-				return new ResponseEntity<Set<Comment>>( movie.getComments(), HttpStatus.OK);
 			}
-
+			
+			public boolean checkIfMovieExist(String id) {
+				if(movieRepo.existsById(id.strip())) {
+					return true;
+				}else {
+					return false;
+				}
+			}
+			
+			public boolean getMovieLikedStatus(String id,  String username) {
+				user = userRepo.findById(username).get(); 	
+				if (checkIfMovieExist(id)) {
+					return user.getFavoriteMovies().contains(movieRepo.findById(id).get());
+				}else {
+					return false;
+				}
+				
+			}
+		
 }
