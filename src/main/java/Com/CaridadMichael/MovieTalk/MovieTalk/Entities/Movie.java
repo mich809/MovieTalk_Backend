@@ -5,6 +5,7 @@ package Com.CaridadMichael.MovieTalk.MovieTalk.Entities;
 
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,8 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -37,9 +38,10 @@ public class Movie {
 		 private String backdrop_path;
 		 private String runtime;
 		 private int rating = 0;
+		
 		 
 		 
-	    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	    @JoinTable(name = "movie_comments",
 	            joinColumns = {
 	                    @JoinColumn(name = "movie_id")
@@ -48,7 +50,7 @@ public class Movie {
 	                    @JoinColumn(name = "comment_id")
 	            }
 	    )
-	    private Set<Comment> comments;
+	    private Set<Comment> comments = new HashSet<Comment>();
 	 
 		
 		  
